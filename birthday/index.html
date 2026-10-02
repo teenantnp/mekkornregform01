@@ -1,0 +1,469 @@
+<title>For My Love</title>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Mali:wght@400;600&family=IBM+Plex+Sans+Thai+Looped:wght@400;600&display=swap">
+<style>
+/* Layout: a sealed letter. Passcode gate -> cake with real candles -> day counter -> handwritten letter -> reasons (flip cards) -> moments timeline -> sign-off. Single narrow column, like reading a card. */
+:root {
+  --paper: #fbf0f1;      /* blush writing paper */
+  --card: #ffffff;
+  --ink: #23306a;        /* fountain-pen blue */
+  --ink-soft: #5b6496;
+  --rose: #d9768a;       /* accent: rose */
+  --rose-wash: #f6d6dc;
+  --flame: #f3b33d;      /* candle flame */
+  --line: #ead3d8;
+  --shadow: 0 1px 2px rgba(35,48,106,.06), 0 8px 24px rgba(35,48,106,.08);
+  --f-display: "Gloock", Georgia, "Times New Roman", serif;
+  --f-hand: "Mali", "Comic Sans MS", cursive;
+  --f-body: "IBM Plex Sans Thai Looped", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #151a35; --card: #1e2448; --ink: #f4e6ea; --ink-soft: #b6b3cf;
+    --rose: #f08ea1; --rose-wash: #3a2a4a; --flame: #f6c25a; --line: #2f3660;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #151a35; --card: #1e2448; --ink: #f4e6ea; --ink-soft: #b6b3cf;
+  --rose: #f08ea1; --rose-wash: #3a2a4a; --flame: #f6c25a; --line: #2f3660;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.65 var(--f-body);
+  padding-inline: 16px;
+}
+.wrap { max-width: 640px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 72px; }
+h1, h2 { font-family: var(--f-display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.1; }
+h2 { font-size: clamp(28px, 6vw, 36px); }
+.eyebrow { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--rose); font-weight: 600; margin: 0 0 8px; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- Gate ---------- */
+.gate { min-height: 100%; display: grid; place-items: center; padding-block: 12vh; }
+.envelope {
+  width: 100%; max-width: 420px; background: var(--card); border: 1px solid var(--line);
+  border-radius: 14px; box-shadow: var(--shadow); padding: 36px 28px 28px; text-align: center;
+  position: relative; display: grid; gap: 18px;
+}
+.seal {
+  width: 64px; height: 64px; border-radius: 50%; margin: -68px auto 0; background: var(--rose);
+  color: var(--card); display: grid; place-items: center; font-family: var(--f-display); font-size: 26px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,.15), var(--shadow);
+}
+.envelope h1 { font-size: 28px; }
+.envelope .hint { color: var(--ink-soft); font-size: 14px; }
+.code-row { display: flex; gap: 8px; }
+.code-row input {
+  flex: 1; min-width: 0; font: 600 22px/1 var(--f-body); letter-spacing: .3em; text-align: center;
+  padding: 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.btn {
+  border: 0; border-radius: 10px; padding: 12px 18px; background: var(--ink); color: var(--paper); font-weight: 600;
+}
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.err { color: var(--rose); font-size: 14px; min-height: 1.4em; }
+.shake { animation: shake .4s; }
+@keyframes shake { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
+
+/* ---------- Hero / cake ---------- */
+.hero { text-align: center; display: grid; gap: 20px; justify-items: center; }
+.hero h1 { font-size: clamp(40px, 11vw, 72px); }
+.hero h1 em { font-style: normal; color: var(--rose); display: block; }
+.date-line { font-family: var(--f-hand); color: var(--ink-soft); font-size: 18px; }
+.cake { position: relative; width: min(320px, 100%); margin-top: 12px; }
+.candles { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 14px; padding: 0 24px 0; min-height: 70px; align-items: end; }
+.candle {
+  background: none; border: 0; padding: 0; width: 14px; height: 58px; position: relative; display: block;
+}
+.candle::before { /* stick */
+  content: ""; position: absolute; left: 3px; bottom: 0; width: 8px; height: 38px; border-radius: 3px;
+  background: repeating-linear-gradient(-45deg, var(--rose) 0 5px, var(--card) 5px 10px);
+  border: 1px solid var(--line);
+}
+.candle .flame {
+  position: absolute; left: 1px; bottom: 40px; width: 12px; height: 18px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 50% 70%, #fff6d8 0 25%, var(--flame) 60%, transparent 72%);
+  transform-origin: 50% 100%; animation: flicker 1.2s infinite ease-in-out alternate;
+  transition: opacity .3s, transform .3s;
+}
+.candle.out .flame { opacity: 0; transform: scale(.2); animation: none; }
+.candle .smoke { position: absolute; left: 4px; bottom: 44px; width: 6px; height: 6px; border-radius: 50%; background: var(--ink-soft); opacity: 0; }
+.candle.out .smoke { animation: smoke 1.4s ease-out forwards; }
+@keyframes flicker { from { transform: rotate(-4deg) scaleY(1); } to { transform: rotate(4deg) scaleY(1.12); } }
+@keyframes smoke { 0% { opacity: .5; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-30px) scale(3); } }
+.tier { margin: 0 auto; border-radius: 10px 10px 4px 4px; position: relative; }
+.tier.top { width: 78%; height: 56px; background: var(--rose-wash); border: 1px solid var(--line); }
+.tier.bottom { width: 100%; height: 72px; background: var(--card); border: 1px solid var(--line); margin-top: -1px; }
+.tier.top::after { /* icing drips */
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; border-radius: 10px 10px 0 0;
+  background: radial-gradient(circle at 10px 8px, var(--card) 8px, transparent 9px) 0 0 / 20px 16px repeat-x;
+}
+.plate { height: 10px; width: 112%; margin-left: -6%; border-radius: 50%; background: var(--line); }
+.cake-note { font-size: 14px; color: var(--ink-soft); min-height: 1.6em; }
+.wish { font-family: var(--f-hand); font-size: 20px; color: var(--rose); }
+
+/* ---------- Counter ---------- */
+.counter { display: grid; gap: 16px; text-align: center; }
+.tally { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.tally div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; min-width: 120px; }
+.tally b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 34px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.tally span { font-size: 13px; color: var(--ink-soft); }
+
+/* ---------- Letter ---------- */
+.letter {
+  background: var(--card); border-radius: 6px; box-shadow: var(--shadow); padding: 40px 28px 36px;
+  font-family: var(--f-hand); font-size: 18px; line-height: 32px;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--line) 31px 32px);
+  background-position: 0 66px; display: grid; gap: 16px;
+}
+.letter .to, .letter .from { color: var(--rose); }
+.letter .from { text-align: right; }
+
+/* ---------- Reasons ---------- */
+.reasons-head { display: grid; gap: 6px; }
+.reasons-head p { color: var(--ink-soft); }
+.reasons { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 20px; }
+.reason { perspective: 800px; background: none; border: 0; padding: 0; height: 150px; text-align: left; }
+.reason .inner { position: relative; width: 100%; height: 100%; transition: transform .6s; transform-style: preserve-3d; }
+.reason.flipped .inner { transform: rotateY(180deg); }
+.reason .face {
+  position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; padding: 16px;
+  display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line);
+}
+.reason .front { background: var(--rose-wash); }
+.reason .front b { font-family: var(--f-display); font-weight: 400; font-size: 36px; color: var(--rose); line-height: 1; }
+.reason .front small { font-size: 12px; color: var(--ink-soft); letter-spacing: .08em; text-transform: uppercase; }
+.reason .back { background: var(--card); transform: rotateY(180deg); font-family: var(--f-hand); font-size: 16px; line-height: 1.4; justify-content: center; overflow: auto; }
+
+/* ---------- Moments ---------- */
+.moments { display: grid; gap: 28px; margin-top: 24px; position: relative; padding-left: 22px; }
+.moments::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.moment { position: relative; display: grid; gap: 10px; }
+.moment::before { content: ""; position: absolute; left: -22px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 0 4px var(--paper); }
+.moment time { font-size: 13px; font-weight: 600; color: var(--rose); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+.moment h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: 22px; line-height: 1.2; }
+.moment p { color: var(--ink-soft); }
+.polaroid { background: var(--card); padding: 10px 10px 34px; border: 1px solid var(--line); box-shadow: var(--shadow); max-width: 320px; transform: rotate(-1.5deg); }
+.moment:nth-child(even) .polaroid { transform: rotate(1.5deg); }
+.polaroid img, .polaroid .ph { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; max-width: 100%; }
+.polaroid .ph { background: linear-gradient(135deg, var(--rose-wash), var(--line)); display: grid; place-items: center; color: var(--ink-soft); font-size: 13px; text-align: center; padding: 12px; }
+
+/* ---------- Closing ---------- */
+.closing { text-align: center; display: grid; gap: 16px; justify-items: center; }
+.closing h2 { font-size: clamp(32px, 8vw, 48px); }
+.closing p { font-family: var(--f-hand); font-size: 20px; color: var(--ink-soft); max-width: 32ch; }
+
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<!-- ========== GATE ========== -->
+<section class="gate" id="gate">
+  <form class="envelope" id="gate-form" autocomplete="off">
+    <div class="seal" aria-hidden="true">♥</div>
+    <h1 id="gate-title">Sealed for you</h1>
+    <p class="hint" id="gate-hint"></p>
+    <div class="code-row">
+      <input id="code" inputmode="numeric" maxlength="8" placeholder="••••" aria-label="Secret code">
+      <button class="btn" type="submit">Open</button>
+    </div>
+    <p class="err" id="err" role="alert"></p>
+  </form>
+</section>
+
+<!-- ========== MAIN ========== -->
+<main class="wrap" id="main" hidden>
+  <section class="hero" aria-labelledby="hero-title">
+    <p class="eyebrow" id="hero-eyebrow"></p>
+    <h1 id="hero-title">Happy birthday,<em id="hero-name"></em></h1>
+    <p class="date-line" id="date-line"></p>
+    <div class="cake">
+      <div class="candles" id="candles"></div>
+      <div class="tier top"></div>
+      <div class="tier bottom"></div>
+      <div class="plate"></div>
+    </div>
+    <p class="cake-note" id="cake-note">Make a wish, then tap each candle to blow it out.</p>
+    <button class="btn ghost" id="relight" type="button" hidden>Light them again</button>
+  </section>
+
+  <section class="counter" aria-labelledby="counter-title">
+    <div>
+      <p class="eyebrow">Since <span id="met-label"></span></p>
+      <h2 id="counter-title">Us, so far</h2>
+    </div>
+    <div class="tally">
+      <div><b id="t-days">0</b><span>days together</span></div>
+      <div><b id="t-weeks">0</b><span>weeks</span></div>
+      <div><b id="t-bdays">0</b><span>your birthdays with me</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="letter-title">
+    <p class="eyebrow">A letter</p>
+    <h2 id="letter-title" hidden>A letter</h2>
+    <article class="letter" id="letter"></article>
+  </section>
+
+  <section aria-labelledby="reasons-title">
+    <div class="reasons-head">
+      <p class="eyebrow">Tap a card</p>
+      <h2 id="reasons-title">Reasons I love you</h2>
+      <p id="reasons-sub"></p>
+    </div>
+    <div class="reasons" id="reasons"></div>
+  </section>
+
+  <section aria-labelledby="moments-title">
+    <p class="eyebrow">Our story</p>
+    <h2 id="moments-title">Moments I keep</h2>
+    <div class="moments" id="moments"></div>
+  </section>
+
+  <section class="closing" aria-labelledby="closing-title">
+    <h2 id="closing-title"></h2>
+    <p id="closing-text"></p>
+    <button class="btn" id="party" type="button">One more time 🎉</button>
+  </section>
+</main>
+
+<script>
+/* =====================================================================
+   ✏️  EDIT EVERYTHING IN THIS BLOCK — the rest of the page reads from it.
+   Text in [brackets] is a placeholder. Thai text works everywhere.
+   ===================================================================== */
+const CONFIG = {
+  herName: "[Her name]",
+  yourName: "[Your name]",
+  birthday: "2000-10-02",     // her birth date, YYYY-MM-DD (sets the age + candle count)
+  metDate: "2023-02-14",      // the day you got together, YYYY-MM-DD
+
+  // The secret code she types to open the page. Default: her birthday as DDMM.
+  passcode: "0210",
+  passcodeHint: "Hint: your birthday, as DDMM",
+
+  letter: [
+    "Dear [Her name],",
+    "[Write your letter here. Each line in this list becomes its own paragraph.]",
+    "[Tell her what this year with her has meant, a small moment you still think about, and what you're looking forward to next.]",
+    "[A last line that sounds like you.]",
+  ],
+  signOff: "Always yours, [Your name]",
+
+  reasons: [
+    "[The way you laugh at your own jokes before you finish them]",
+    "[How you always remember the little things]",
+    "[Reason three]",
+    "[Reason four]",
+    "[Reason five]",
+    "[Reason six]",
+  ],
+
+  // photo: a file path (e.g. "photos/first-date.jpg") or "" for a placeholder frame
+  moments: [
+    { date: "2023-02-14", title: "[Our first date]", text: "[Where we went and what you wore]", photo: "" },
+    { date: "2023-08-20", title: "[First trip together]", text: "[A detail only we know]", photo: "" },
+    { date: "2025-10-02", title: "[Your last birthday]", text: "[What we did]", photo: "" },
+  ],
+
+  closingTitle: "Here's to many more",
+  closingText: "[A short wish for her next year]",
+};
+/* ===================================================================== */
+
+const $ = (id) => document.getElementById(id);
+const store = {
+  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch {} },
+};
+const parse = (s) => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+const fmt = (d) => d.toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Gate ---------- */
+$("gate-hint").textContent = CONFIG.passcodeHint;
+$("gate-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const val = $("code").value.trim();
+  if (val === CONFIG.passcode) { store.set("unlocked", "1"); unlock(true); }
+  else {
+    $("err").textContent = "Not quite. Try again.";
+    const f = $("gate-form"); f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake");
+    $("code").select();
+  }
+});
+
+function unlock(celebrate) {
+  $("gate").hidden = true;
+  $("main").hidden = false;
+  render();
+  if (celebrate) confetti(120);
+  window.scrollTo(0, 0);
+}
+
+/* ---------- Render ---------- */
+function render() {
+  const bday = parse(CONFIG.birthday), met = parse(CONFIG.metDate), now = new Date();
+  let age = now.getFullYear() - bday.getFullYear();
+  const thisYear = new Date(now.getFullYear(), bday.getMonth(), bday.getDate());
+  if (now < thisYear) age--;
+  age = Math.max(1, age);
+
+  $("hero-eyebrow").textContent = `Turning ${age}`;
+  $("hero-name").textContent = CONFIG.herName;
+  $("date-line").textContent = fmt(thisYear <= now ? thisYear : new Date(now.getFullYear() - 1, bday.getMonth(), bday.getDate()));
+
+  // candles
+  const wrap = $("candles"); wrap.innerHTML = "";
+  for (let i = 0; i < age; i++) {
+    const c = document.createElement("button");
+    c.className = "candle"; c.type = "button"; c.setAttribute("aria-label", `Blow out candle ${i + 1} of ${age}`);
+    c.innerHTML = '<span class="flame"></span><span class="smoke"></span>';
+    c.addEventListener("click", () => blow(c));
+    wrap.appendChild(c);
+  }
+  $("cake-note").textContent = `Make a wish, then tap each of the ${age} candles to blow it out.`;
+
+  // counter
+  const days = Math.floor((now - met) / 86400000);
+  $("met-label").textContent = fmt(met);
+  $("t-days").textContent = days.toLocaleString();
+  $("t-weeks").textContent = Math.floor(days / 7).toLocaleString();
+  let n = 0;
+  for (let y = met.getFullYear(); y <= now.getFullYear(); y++) {
+    const b = new Date(y, bday.getMonth(), bday.getDate());
+    if (b >= met && b <= now) n++;
+  }
+  $("t-bdays").textContent = n;
+
+  // letter
+  const L = $("letter"); L.innerHTML = "";
+  CONFIG.letter.forEach((t, i) => { const p = document.createElement("p"); p.textContent = t; if (i === 0) p.className = "to"; L.appendChild(p); });
+  const s = document.createElement("p"); s.className = "from"; s.textContent = CONFIG.signOff; L.appendChild(s);
+
+  // reasons
+  $("reasons-sub").textContent = `${CONFIG.reasons.length} of them, for now. The list keeps growing.`;
+  const R = $("reasons"); R.innerHTML = "";
+  CONFIG.reasons.forEach((t, i) => {
+    const b = document.createElement("button");
+    b.className = "reason"; b.type = "button"; b.setAttribute("aria-label", `Reason ${i + 1}`);
+    b.innerHTML = `<div class="inner"><div class="face front"><b>${i + 1}</b><small>Tap to read</small></div><div class="face back"></div></div>`;
+    b.querySelector(".back").textContent = t;
+    b.addEventListener("click", () => b.classList.toggle("flipped"));
+    R.appendChild(b);
+  });
+
+  // moments
+  const M = $("moments"); M.innerHTML = "";
+  CONFIG.moments.forEach((m) => {
+    const el = document.createElement("article"); el.className = "moment";
+    el.innerHTML = `<time></time><h3></h3><p></p><figure class="polaroid" style="margin:0"></figure>`;
+    el.querySelector("time").textContent = fmt(parse(m.date));
+    el.querySelector("time").dateTime = m.date;
+    el.querySelector("h3").textContent = m.title;
+    el.querySelector("p").textContent = m.text;
+    const fig = el.querySelector("figure");
+    if (m.photo) { const img = new Image(); img.src = m.photo; img.alt = m.title; img.loading = "lazy"; fig.appendChild(img); }
+    else { const ph = document.createElement("div"); ph.className = "ph"; ph.textContent = "Photo goes here"; fig.appendChild(ph); }
+    M.appendChild(el);
+  });
+
+  $("closing-title").textContent = CONFIG.closingTitle;
+  $("closing-text").textContent = CONFIG.closingText;
+}
+
+/* ---------- Candles ---------- */
+function blow(c) {
+  if (c.classList.contains("out")) return;
+  c.classList.add("out");
+  const left = document.querySelectorAll(".candle:not(.out)").length;
+  if (left === 0) {
+    $("cake-note").innerHTML = '<span class="wish">Your wish is on its way ✨</span>';
+    $("relight").hidden = false;
+    confetti(220); song();
+  } else {
+    $("cake-note").textContent = `${left} to go.`;
+  }
+}
+$("relight").addEventListener("click", () => {
+  document.querySelectorAll(".candle").forEach((c) => c.classList.remove("out"));
+  $("relight").hidden = true;
+  $("cake-note").textContent = "Make another wish.";
+});
+$("party").addEventListener("click", () => { confetti(220); song(); });
+
+/* ---------- Happy Birthday melody (Web Audio, plays after a tap) ---------- */
+let ac;
+function song() {
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const N = { G4: 392, A4: 440, B4: 493.9, C5: 523.3, D5: 587.3, E5: 659.3, F5: 698.5, G5: 784 };
+    const tune = [["G4",.75],["G4",.25],["A4",1],["G4",1],["C5",1],["B4",2],
+                  ["G4",.75],["G4",.25],["A4",1],["G4",1],["D5",1],["C5",2],
+                  ["G4",.75],["G4",.25],["G5",1],["E5",1],["C5",1],["B4",1],["A4",2],
+                  ["F5",.75],["F5",.25],["E5",1],["C5",1],["D5",1],["C5",2.5]];
+    const beat = 0.42; let t = ac.currentTime + 0.1;
+    for (const [n, d] of tune) {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = "triangle"; o.frequency.value = N[n];
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.18, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t + d * beat * 0.95);
+      o.connect(g).connect(ac.destination); o.start(t); o.stop(t + d * beat);
+      t += d * beat;
+    }
+  } catch {}
+}
+
+/* ---------- Confetti ---------- */
+const cv = $("confetti"), cx = cv.getContext("2d");
+let bits = [], raf = 0;
+function confetti(count) {
+  if (reduceMotion) return;
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const css = getComputedStyle(document.documentElement);
+  const colors = ["--rose", "--flame", "--ink", "--rose-wash"].map((v) => css.getPropertyValue(v).trim());
+  for (let i = 0; i < count; i++) bits.push({
+    x: innerWidth / 2 + (Math.random() - .5) * 120, y: innerHeight * .35,
+    vx: (Math.random() - .5) * 14, vy: -Math.random() * 14 - 4,
+    r: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+    w: 6 + Math.random() * 6, h: 8 + Math.random() * 8,
+    c: colors[i % colors.length], heart: Math.random() < .25,
+  });
+  if (!raf) tick();
+}
+function tick() {
+  cx.clearRect(0, 0, innerWidth, innerHeight);
+  bits = bits.filter((b) => b.y < innerHeight + 40);
+  for (const b of bits) {
+    b.vy += .35; b.vx *= .99; b.x += b.vx; b.y += b.vy; b.r += b.vr;
+    cx.save(); cx.translate(b.x, b.y); cx.rotate(b.r); cx.fillStyle = b.c;
+    if (b.heart) { cx.font = `${b.h + 6}px serif`; cx.fillText("♥", -b.w / 2, b.h / 2); }
+    else cx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+    cx.restore();
+  }
+  raf = bits.length ? requestAnimationFrame(tick) : 0;
+  if (!raf) cx.clearRect(0, 0, innerWidth, innerHeight);
+}
+
+/* ---------- Boot ---------- */
+if (store.get("unlocked") === "1") unlock(false);
+</script>
